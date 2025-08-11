@@ -63,10 +63,10 @@ fSer_rain_pyarrow
 
 pd.Series(float_rain).replace('T','0.0').astype('float').astype('double[pyarrow]')
 
-# %%
+
 %%timeit # type[ignore]
 print('hi')
-# %%
+
 
 
 list_ex = [2.7,8.5,5.3,-25.3,0,8]
