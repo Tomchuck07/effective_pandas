@@ -1,6 +1,7 @@
 import sys
 import numpy as np
 import pandas as pd
+import pyarrow as pA
 
 
 #overflow loop
@@ -63,32 +64,20 @@ fSer_rain_pyarrow
 
 pd.Series(float_rain).replace('T','0.0').astype('float').astype('double[pyarrow]')
 
-
-%%timeit # type[ignore]
-print('hi')
-
-
-
 list_ex = [2.7,8.5,5.3,-25.3,0,8]
 sys.getsizeof(list_ex)
 
-Numpy_array
-sys.getsizeof(Numpy_array)
 
-
-%%timeit
 Numpy_array = pd.Series(list_ex)
 Numpy_array+=1
 
 Numpy_array
-pyarrow_array
 
-%%timeit
 pyarrow_array = pd.Series(list_ex, dtype='float64[pyarrow]')
 pyarrow_array+=1
 
-import pandas as pd
-import pyarrow as pA
+pyarrow_array
+
 
 pa_string = pd.ArrowDtype(pA.string())
 
@@ -120,6 +109,3 @@ pdmonths
 
 pdmonth_cat = pd.CategoricalDtype(categories=months, ordered=True)
 pd.Series(months, dtype=pdmonth_cat).sort_values()
-
-
-# %%
