@@ -1,7 +1,7 @@
 import sys
 import numpy as np
 import pandas as pd
-import pyarrow as pA
+import pyarrow as pa
 
 
 #overflow loop
@@ -12,15 +12,15 @@ n1+n255
 
 
 #appending empty integer
-demo=np.array([1,2,3], dtype='int8')
+demo=np.array([1,   2,  3], dtype='int8')
 demo.dtype
 demo_new=np.append(demo,[])
 demo=demo_new
 
 #integers
-small_values = [2,5,4,45]
-great_values = [2**31,2**63,2**100]
-missing_values =[None,1,-45]
+small_values = [2, 5, 4, 45]
+great_values = [2**31, 2**63, 2**100]
+missing_values =[None, 1, -45]
 
 small_series = pd.Series(small_values, dtype='int8')
 great_series = pd.Series(great_values)
@@ -44,9 +44,9 @@ missing_series_pyarrow
 
     #floats
 
-float_values=[2.3,45.3, 5.8]
-float_missing = [None, 23.2,-45.0]
-float_rain = [1.5, 2.0, 'T', 4.2, 0.0]
+float_values=[2.3, 45.3,  5.8]
+float_missing = [None,  23.2, -45.0]
+float_rain = [1.5,  2.0,  'T',  4.2,  0.0]
 
 float_series_numpy = pd.Series(float_missing)
 float_series_numpy
@@ -64,7 +64,7 @@ fSer_rain_pyarrow
 
 pd.Series(float_rain).replace('T','0.0').astype('float').astype('double[pyarrow]')
 
-list_ex = [2.7,8.5,5.3,-25.3,0,8]
+list_ex = [2.7, 8.5, 5.3, -25.3, 0, 8]
 sys.getsizeof(list_ex)
 
 
@@ -79,10 +79,10 @@ pyarrow_array+=1
 pyarrow_array
 
 
-pa_string = pd.ArrowDtype(pA.string())
+pa_string = pd.ArrowDtype(pa.string())
 
-strings_list = ['elo', 'witomyy', 'dobrydobry']
-strings_missing = ['elo', None, 'dobrydobry']
+strings_list = ['elo',  'witomyy',  'dobrydobry']
+strings_missing = ['elo',  None,  'dobrydobry']
 
 string_array = pd.Series(strings_list)
 string_array_missing = pd.Series(strings_missing)
@@ -101,7 +101,7 @@ pA_strings_perfect.dtype == pA_strings.dtype
 
 #categories
 
-months = ['january','february','march','april','may','june','july','august']
+months = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august']
 months_series = pd.Series(months, dtype = 'string')
 pdmonths = pd.Series(months_series, dtype = 'category')
 pdmonths
