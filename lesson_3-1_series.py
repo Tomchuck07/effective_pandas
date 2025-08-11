@@ -1,5 +1,5 @@
 import pandas as pd
-
+import numpy as np
 
 series = {
     'year':[1978,1999,2008,2013],
@@ -35,7 +35,7 @@ sW_objVls = pd.Series(
 sW_objVls
 
 
-import numpy as np
+
 
 ex2=  pd.Series([23,21,np.nan,23,43,2.5,23])
 ex2.size
