@@ -1,7 +1,7 @@
 import pandas as pd
 
 
-#importujemy csv
+# csv import
 
 url = 'https://github.com/mattharrison/datasets/raw/master/data/' \
 'vehicles.csv.zip'
