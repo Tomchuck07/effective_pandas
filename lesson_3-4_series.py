@@ -58,5 +58,80 @@ inflation = 1.1
 mask2 = cost.multiply(inflation)>3
 cost.loc[mask2]
 
+# The .iloc Attrubute
 
+city2.iloc[0]
+city2.iloc[-1]
+city2.iloc[[0, 1, -1]]
+city2.iloc[0:5]
+city2.iloc[-8:]
+
+mask = city2 > 50
+city2.iloc[mask]
+
+mask = city2 > 50
+city2.iloc[mask.to_numpy()]
+city2.iloc[list(mask)]  
+
+# Head and Tails
+
+city2.head(3)
+city2.tail(3)
+
+# Sampling
+
+city2.sample(6, random_state=42)
+
+# Filtering Index Values
+
+city2.filter(items=['Subaru', 'Ford'])
+city2.filter(like='rd')
+city2.filter(regex='(Ford)|(Subaru)')
+
+# Reindexing
+
+city2.reindex(['Missing', 'Ford'])
+
+s1 = pd.Series([10, 20, 30], index=['a', 'b', 'c'])
+s2 = pd.Series([15, 25, 35], index=['b', 'c', 'd'])
+
+city_mpg.reindex([0,0, 10, 20, 20_000_000])
+
+s2.reindex(s1.index)
+
+# EXERCISES
+# With a dataset of your choice:
+
+# 1. Inspect the index.
+# 2. Sort the index.
+# 3. Set the index to monotonically increasing integers starting from 0.
+# 4. Set the index to monotonically increasing integers starting from 0, then convert these to the string version. Save this a s2.
+# 5. Using s2, pull out the first five entries.
+# 6. Using s2, pull out the last five entries.
+# 7. Using s2, pull out one hundred entries starting at index position
+# 8. Using s2, create a series with values with index entries '20', '10', and '2'.
+
+ser = pd.Series([10, 34, 4, 34, 23, 11, 2, 3, 6, 26, 15, 23, 5, 6, 19, 20, 8, 17]
+                , index=['Z', 'Y', 'X', 'W', 'V', 'U', 'T', 'S', 'R', 'Q', 'P', 'O', 'N', 'M', 'L', 'K', 'J', 'I'])
+
+# 1
+ser.index
+# 2
+ser.sort_index()
+# 3
+ser.reset_index(drop=True)
+# 4
+s2 = ser.reset_index(drop=True)
+s2.index
+s2.index = s2.index.astype('string')
+s2.index
+# 5
+s2.head(5)
+# 6
+s2.tail(5)
+# 7
+index_pos = 4
+s2.iloc[index_pos:(index_pos+10)]
+# 8
+s2.reindex(['20', '10', '2'])
 
