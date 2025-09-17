@@ -5,7 +5,12 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
+    "cython>=3.1.4",
     "ipykernel==6.30.0",
     "matplotlib==3.10.5",
+    "numba>=0.61.2",
+    "numpy==1.26.3",
     "pandas==2.3.1",
+    "pyarrow==21.0.0",
+    "setuptools>=80.9.0",
 ]
