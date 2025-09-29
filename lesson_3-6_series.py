@@ -113,3 +113,64 @@ dates.dt.is_month_end
 dates.dt.strftime('%d.%m.%Y')
 
 # Date Math
+
+classes = ['cs106', 'cs150', 'hist205', 'hist206', 'hist207']
+start_dates = (pd.Series(['2015-03-08',
+ '2015-03-08',
+ '2015-03-09',
+ '2015-03-09',
+ '2015-03-11'], dtype='datetime64[ns]', index=classes)
+               .astype('timestamp[ns][pyarrow]')
+)
+
+end_dates = (pd.Series(['2015-05-28 23:59:59',
+'2015-06-01 3:00:00',
+'2015-06-03',
+'2015-06-02 14:20',
+'2015-06-01'], dtype='datetime64[ns]', index=classes)
+               .astype('timestamp[ns][pyarrow]')
+)
+end_dates
+
+duration = (end_dates - start_dates)
+duration
+
+duration.astype('timedelta64[ns]')
+
+(duration
+     .astype('timedelta64[ns]')
+     .dt.total_seconds()
+)
+(duration
+     .astype('timedelta64[ns]')
+     .dt.seconds
+)
+(duration
+     .astype('timedelta64[ns]')
+     .dt.days
+)
+
+# Exercises
+# With a dataset of your choice:
+# 1. Convert a column with date information to a date.
+# 2. Convert a date column into UTC dates.
+# 3. Convert a date column into local dates with a time zone.
+# 4. Convert a date column into epoch values.
+# 5. Convert an epoch number into UTC.
+
+s0 = pd.Series(['01.05.2025', '30.03.2024', '11.11.2020'])
+# 1
+s1 = pd.to_datetime(s0, format='%d.%m.%Y')
+s1
+
+# 2
+s2 = pd.to_datetime(s0, format='%d.%m.%Y', utc=True)
+s2
+# 3
+s2.dt.tz_convert('Europe/Warsaw')
+
+# 4
+s4 = s1.astype('int64[pyarrow]')
+s4
+# 5
+pd.to_datetime(s4,  unit='ns').dt.tz_localize('UTC')
