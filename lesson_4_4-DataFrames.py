@@ -1,4 +1,3 @@
-# %%
 # LOOPING AND AGGREGATION
 import pandas as pd
 
@@ -139,15 +138,14 @@ def calc_unbilled_case(bill_df):
 
 bill_100k = bill_df.sample(100_000, replace=True)
 
-# %%
+
 %%timeit
 bill_100k.apply(unpayed_sum_rec, axis='columns')
 
-# %%
+
 %% timeit
 calc_unbilled_case(bill_100k)
 
-# %%
 # Exercises
 # With a tabular dataset of your choice:
 
@@ -169,4 +167,4 @@ for tup in pres_df.itertuples():
         pres_df.apply(lambda column: {'max':column.max(), 'min':column.min()}, axis='index')])
 
 
-# %%
+
