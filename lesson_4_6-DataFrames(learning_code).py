@@ -192,3 +192,52 @@ jb2 = (jb[uniq_cols]
 
 jb2.team_size.value_counts(dropna=False)
 jb['team.size'].value_counts(dropna=False)
+
+
+# Exercises
+# With a dataset of your choice:
+
+# 1. Create a “tweak” function to clean up the data.
+
+# 2. Explore the memory usage of the raw and tweaked data.
+
+import pyarrow as pa
+ids = np.arange(1001, 6001)
+ids.size
+
+data = {
+    'Emp.ID': ids, 
+    'Full Name': ['John Doe', 'Jane Smith', 'Bob Stone', 'Alice Wonder', 'Mike Ross'] * 1000,
+    'Salary': ['$60,000', '$85,000', '$45,000', '$120,000', '$70,000'] * 1000,
+    'Department': ['Sales', 'IT', 'Sales', 'Management', 'IT'] * 1000,
+    'Join Date': ['2020.01.15', '2019.05.20', '2021.08.01', '2018.11.11', '2020.03.10'] * 1000
+}
+
+df_raw = pd.DataFrame(data)
+str_dtype = pd.ArrowDtype(pa.string())
+
+# 1
+
+def tweak_employees(df):
+    return(
+        df
+        .rename(columns={'Full Name':'Full_Name', 'Join Date':'Join_Date'})
+        .assign(
+            Full_Name = lambda df_: df_.Full_Name.astype(str_dtype),
+            Salary = lambda df_: df_.Salary.str[1:]
+                                    .str.replace(',','')
+                                    .astype('int32[pyarrow]'),
+            Department = lambda df_: df_.Department.astype('category'),
+            Join_Date = lambda df_: df_.Join_Date.astype('datetime64[ns]')
+        )
+    )
+
+df_new = tweak_employees(df_raw)
+df_new.dtypes
+
+# 2
+
+df_raw.memory_usage(deep=True)
+df_new.memory_usage(deep=True)
+
+
