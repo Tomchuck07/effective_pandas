@@ -103,4 +103,122 @@ alta.SNOW.corr(alta.PRCP)
     .plot.scatter(x='PRCP', y='SNOW', alpha=.7, logx=True, logy=True, c='TMAX', cmap='coolwarm')
 )
 
-#TBC on 14.12.25
+# Jittering Data
+import numpy as np
+
+def jitter(df, column, scale=1):
+     rands = np.random.random(len(df))
+     return (df[column]+(rands-.5)*scale)
+
+fig, ax = plt.subplots(figsize=(12, 5))
+(alta
+    .assign(SNOW = lambda df_: df_.SNOW.where(df_.SNOW==0,
+                                             jitter(df_,'SNOW')
+                                             .clip(lower=0)))
+    .plot.scatter('PRCP','SNOW', alpha=0.2, title='jitter', ax=ax)
+)
+
+ax.set_xlim(0,2)
+ax.set_ylim(0,10)
+
+# Correlation heatmap
+
+(alta
+ .corr()
+ .style
+ .background_gradient(cmap='RdBu', vmin=-1, vmax=1)
+)
+(alta
+ .corr()
+ .style
+ .background_gradient(cmap='viridis')
+)
+
+# Hexbin Plots
+
+(alta
+    .query('SNOW>0')
+    .plot.hexbin(x='PRCP', y='SNOW', cmap='Greens', gridsize=30)
+)
+
+# Area Plots and Stacked Bar Plots
+
+ax = (pres
+        .plot.area(x='President',
+            y='Background Imagination Integrity Intelligence Luck Willing_to_take_risks Ability_to_compromise'.split(), rot=45, figsize=(15,7))      
+)
+
+ax.set_xticks(range(len(pres)))
+ax.set_xticklabels(labels=pres.President, ha='right')
+
+ax = (pres
+        .plot.bar(x='President',
+            y='Background Imagination Integrity Intelligence Luck Willing_to_take_risks Ability_to_compromise'.split(), rot=45, figsize=(15,7), stacked=True)      
+)
+
+ax.set_xticks(range(len(pres)))
+ax.set_xticklabels(labels=pres.President, ha='right')
+
+# Column Distributions with KDEs, Histograms, and Boxplots
+
+(pres
+    .set_index('President')
+    .loc[:, 'Background':'Average_rank']
+    .iloc[:9]
+    .T
+    .plot.density(figsize=(10,4))
+)
+
+(pres
+    .set_index('President')
+    .loc[:, 'Background':'Average_rank']
+    .iloc[:9]
+    .T
+    .plot.hist(bins=20, alpha=0.5, figsize=(10,4))
+)
+
+ax = (pres
+    .set_index('President')
+    .loc[:, 'Background':'Average_rank']
+    .iloc[:9]
+    .T
+    .plot.box(rot=45, figsize=(10,4))
+)
+
+ax.set_xticklabels(labels=pres.President[:9], ha='right')
+
+# Exercises
+# With a dataset of your choice:
+
+url = 'https://github.com/mattharrison/datasets/raw/master/data/' \
+'vehicles.csv.zip'
+cars = pd.read_csv(url, dtype_backend = 'pyarrow', engine = 'pyarrow')
+cars.columns
+
+# 1. Create a histogram from a numeric column. Change the bin size.
+
+cars.cylinders.plot.hist()
+cars.cylinders.plot.hist(bins=4)
+cars.cylinders.plot.hist(bins=6)
+
+# 2. Create a boxplot from a numeric column.
+
+cars.year.plot.box()
+
+# 3. Create a Kernel Density Estimate plot from a numeric column.
+
+ax = cars.city08.plot.density(figsize=(16,8))
+ax.set_xlim(8,35)
+
+# 4. Create a line from a numeric column.
+
+cars.barrels08.sample(40).sort_index().plot.line()
+
+# 5. Create a bar plot from the frequency count of a categorical column.
+
+(cars
+    .make
+    .value_counts()
+    .loc[lambda v: v>1000]
+    .plot.bar()
+)

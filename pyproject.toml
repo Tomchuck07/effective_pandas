@@ -8,6 +8,7 @@ dependencies = [
     "catboost>=1.2.8",
     "cython>=3.1.4",
     "ipykernel==6.30.0",
+    "jinja2>=3.1.6",
     "lxml>=6.0.2",
     "matplotlib==3.10.5",
     "numba>=0.61.2",
