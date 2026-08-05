@@ -3,3 +3,6 @@ effective_pandas.egg-info
 .venv
 .ipynb_checkpoints
 fiszki
+__pycache__/
+*.pyc
+catboost_info/
